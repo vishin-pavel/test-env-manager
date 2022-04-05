@@ -1,0 +1,43 @@
+## STATIC CONFIGURATION
+log:
+  level: INFO
+accessLog: {}
+api:
+  insecure: true
+  dashboard: true
+
+entryPoints:
+  web:
+    address: ":3000"
+  api:
+    address: ":8889"
+
+providers:
+  file:
+    filename: "/etc/traefik/traefik.yml"
+
+## DYNAMIC CONFIGURATION
+http:
+  routers:
+    route-to-twilio:
+      rule: "PathPrefix(`/twilio`)"
+      service: twilio-service
+      priority: 1000
+      entryPoints:
+        - api
+    route-to-api:
+      rule: "Host(`127.0.0.1`)"
+      service: api-service
+      priority: 1
+      entryPoints:
+        - api
+
+  services:
+    api-service:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:8888"
+    twilio-service:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:8887"
