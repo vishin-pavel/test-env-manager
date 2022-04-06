@@ -1,11 +1,11 @@
 
-#How it works
+# How it works
 The idea is to have a separate service to serve backends and point
 Vercel builds to that backends. This service is a scratch of how it could work. 
 
 #### Notice: There is a lot of code in this repo, but in fact, you should pay attention only to expressJS controllers in `/packages/api/src/application/controllers`
 
-###Step-by-step
+### Step-by-step
 1. eventHandler() in the github.controller.ts handle events from Github
 2. If new a branch or a comment is pushed -- start processing
 3. Clone repo and switch to the branch 
@@ -17,7 +17,7 @@ route to the container.
 As a result each time you create new branch in this repo it can be accepted on 
 `http://[branch-name].localhost`
 
-#Important places
+# Important places
 - Dockerfile - simple build instructions for this service
 - docker-compose.yml - starts Traefik witch should serve containers
 - `/packages/api/src/application/controllers/github/github.controller.ts` -> eventHandler() - GitHub webhook handler
